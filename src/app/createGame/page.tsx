@@ -50,13 +50,13 @@ export default function CreateGamePage() {
             className="border border-gray-300 dark:border-gray-600 rounded-lg p-2 w-64 text-gray-800 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
 
-          <label htmlFor="gameName" className="w-full text-left">プレイヤー名</label>
+          <label htmlFor="player" className="w-full text-left">プレイヤー名</label>
           <div className="relative w-full">
             <div className="relative w-full">
               <input 
                 type="text" 
-                id="gameName"
-                name="gameName"
+                id="player"
+                name="player"
                 value={tempPlayer} 
                 placeholder="布団ちゃん"
                 onChange={(e) => setTempPlayer(e.target.value)}
