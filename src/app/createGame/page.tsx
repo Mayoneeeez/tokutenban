@@ -1,9 +1,12 @@
 "use client"
-import Link from "next/link";
-import { use, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ulid } from "ulid";
 
 export default function CreateGamePage() {
 
+  const router = useRouter();
+  
   type Player = {
     playerName: string;
   }
@@ -31,11 +34,12 @@ export default function CreateGamePage() {
     console.log(gameStatus);
   }, [gameStatus]);
 
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <form className="flex flex-col gap-4 items-start w-64">
-          <label htmlFor="gameName">ゲーム名</label>
+        <form className="flex flex-col gap-4 items-center w-64">
+          <label htmlFor="gameName" className="w-full text-left">ゲーム名</label>
           <input 
             type="text" 
             id="gameName"
@@ -46,7 +50,7 @@ export default function CreateGamePage() {
             className="border border-gray-300 dark:border-gray-600 rounded-lg p-2 w-64 text-gray-800 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
 
-          <label htmlFor="gameName">プレイヤー名</label>
+          <label htmlFor="gameName" className="w-full text-left">プレイヤー名</label>
           <div className="relative w-full">
             <div className="relative w-full">
               <input 
@@ -89,7 +93,15 @@ export default function CreateGamePage() {
               </div>
             </div>
           </div>
-          
+          <button 
+            type="button"
+            className="bg-blue-400 hover:bg-blue-500 text-white dark:bg-blue-600/80 dark:hover:bg-blue-600 px-4 py-2 rounded-lg transition duration-200 shadow-sm"
+            onClick={() => {
+              router.push(`/game/${ulid()}/share`)
+            }}
+          >
+            得点版リンク作成
+          </button>
         </form>
 
       </main>
