@@ -12,23 +12,25 @@ export default function CreateGamePage() {
   }
 
   type Rule = {
-    ruleName: string;
-    ruleDescription: string;
+    round:number;
   }
 
   type GameStatus = {
     gameName: string;
     players: Player[];
-    rules:Rule[];
+    rules:Rule;
   }
 
   const [gameStatus, setGameStatus] = useState<GameStatus>({
     gameName: "",
     players: [],
-    rules: [],
+    rules: {
+      round: 1
+    },
   });
 
   const [tempPlayer, setTempPlayer] = useState<string>("");
+  const [tempRound, setTempRound] = useState<number>(1);
 
   useEffect(() => {
     console.log(gameStatus);
@@ -93,11 +95,27 @@ export default function CreateGamePage() {
               </div>
             </div>
           </div>
+          <label htmlFor="rules" className="w-full text-left">ルール</label>
+          <input 
+            type="number" 
+            id="rules"
+            name="rules"
+            value={tempRound}
+            placeholder="1"
+            onChange={(e) => setTempRound(Number(e.target.value))}
+            className="border border-gray-300 dark:border-gray-600 rounded-lg p-2 w-64 text-gray-800 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            />
           <button 
             type="button"
             className="bg-blue-400 hover:bg-blue-500 text-white dark:bg-blue-600/80 dark:hover:bg-blue-600 px-4 py-2 rounded-lg transition duration-200 shadow-sm"
             onClick={() => {
-              router.push(`/game/${ulid()}/share`)
+
+              setGameStatus((prev) => ({
+                ...prev,
+                rules: { round: tempRound }
+              }));
+
+              router.push(`/game/${ulid()}/share`);
             }}
           >
             得点版リンク作成
