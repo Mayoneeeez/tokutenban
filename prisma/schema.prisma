@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -14,40 +15,45 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-/*
 model Game {
-  id        String   @id @default(uuid())
-  url       String 
-  name      String
-  rounds    Int
-  createdAt DateTime @default(now()) @map("created_at")
-  players   Player[]
-  scores    Score[]
+  game_id           String   @id @default(uuid())
+  game_name         String   @db.VarChar(100)
+  url_path          String   @unique @db.VarChar(50)
+  memo              String?  @db.Text
+  created_datetime  DateTime @default(now())
+  updated_datetime  DateTime @updatedAt
+  scores            Score[]
 
   @@map("games")
 }
 
-model Player {
-  id        String   @id @default(uuid())
-  name      String
-  gameId    String   @map("game_id")
-  createdAt DateTime @default(now()) @map("created_at")
-  game      Game     @relation(fields: [gameId], references: [id])
-  scores    Score[]
-
-  @@map("players")
-}
-
 model Score {
-  id        String   @id @default(uuid())
-  gameId    String   @map("game_id")
-  playerId  String   @map("player_id")
-  round     Int
-  score     Int
-  createdAt DateTime @default(now()) @map("created_at")
-  game      Game     @relation(fields: [gameId], references: [id])
-  player    Player   @relation(fields: [playerId], references: [id])
+  score_id         String   @id @default(uuid())
+  game_id          String
+  player_name      String   @db.VarChar(50)
+  round_number     Int
+  score            Int
+  created_datetime DateTime @default(now())
+  updated_datetime DateTime @updatedAt
+  game             Game     @relation(fields: [game_id], references: [game_id], onDelete: Cascade)
 
+  @@unique([game_id, player_name, round_number], name: "unique_round_score")
   @@map("scores")
 }
-*/
+
+view PlayerTotal {
+  game_id      String  @id
+  player_name  String
+  total_score  Int
+
+  @@map("player_totals")
+}
+
+view GameRanking {
+  game_id      String  @id
+  player_name  String
+  total_score  Int
+  rank         Int
+
+  @@map("game_rankings")
+}

@@ -1,0 +1,54 @@
+@startuml ER Diagram
+
+' Styling
+skinparam linetype ortho
+skinparam class {
+    BackgroundColor White
+    BorderColor Black
+    ArrowColor Black
+}
+
+' Tables
+entity "games" as games {
+    + game_id: UUID <<PK>>
+    --
+    game_name: VARCHAR(100)
+    url_path: VARCHAR(50) <<UK>>
+    memo: TEXT
+    created_datetime: TIMESTAMP
+    updated_datetime: TIMESTAMP
+}
+
+entity "scores" as scores {
+    + score_id: UUID <<PK>>
+    --
+    # game_id: UUID <<FK>>
+    player_name: VARCHAR(50)
+    round_number: INTEGER
+    score: INTEGER
+    created_datetime: TIMESTAMP
+    updated_datetime: TIMESTAMP
+    --
+    <<UK>> (game_id, player_name, round_number)
+}
+
+' Views
+entity "player_totals" as player_totals <<view>> {
+    game_id: UUID
+    player_name: VARCHAR(50)
+    total_score: INTEGER
+}
+
+entity "game_rankings" as game_rankings <<view>> {
+    game_id: UUID
+    player_name: VARCHAR(50)
+    total_score: INTEGER
+    rank: INTEGER
+}
+
+' Relationships
+games ||--o{ scores
+scores ||--o{ player_totals
+player_totals ||--o{ game_rankings
+
+@enduml 
