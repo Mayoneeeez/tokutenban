@@ -11,37 +11,50 @@ export default function CreateGamePage() {
     playerName: string;
   }
 
-  type Rule = {
+  type Description = {
     round:number;
+    memo:string;
   }
 
   type GameStatus = {
     gameName: string;
     players: Player[];
-    rules:Rule;
+    description:Description;
   }
 
   const [gameStatus, setGameStatus] = useState<GameStatus>({
     gameName: "",
     players: [],
-    rules: {
-      round: 1
+    description: {
+      round: 1,
+      memo: ""
     },
   });
 
   const [tempPlayer, setTempPlayer] = useState<string>("");
   const [tempRound, setTempRound] = useState<number>(1);
+  const [tempMemo, setTempMemo] = useState<string>("");
+
+  const onClickCreateGame = () => {
+    setGameStatus((prev) => ({
+      ...prev,
+      description: { round: tempRound, memo: tempMemo }
+    }));
+    
+    router.push(`/game/${ulid()}/share`);
+  }
 
   useEffect(() => {
     console.log(gameStatus);
   }, [gameStatus]);
 
+  
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <form className="flex flex-col gap-4 items-center w-64">
-          <label htmlFor="gameName" className="w-full text-left">ゲーム名</label>
+          <label htmlFor="gameName" className="w-full text-left font-bold">ゲーム名</label>
           <input 
             type="text" 
             id="gameName"
@@ -52,7 +65,7 @@ export default function CreateGamePage() {
             className="border border-gray-300 dark:border-gray-600 rounded-lg p-2 w-64 text-gray-800 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
 
-          <label htmlFor="player" className="w-full text-left">プレイヤー名</label>
+          <label htmlFor="player" className="w-full text-left font-bold">プレイヤー名</label>
           <div className="relative w-full">
             <div className="relative w-full">
               <input 
@@ -95,28 +108,33 @@ export default function CreateGamePage() {
               </div>
             </div>
           </div>
-          <label htmlFor="rules" className="w-full text-left">ルール</label>
-          <input 
-            type="number" 
-            id="rules"
-            name="rules"
-            value={tempRound}
-            placeholder="1"
-            onChange={(e) => setTempRound(Number(e.target.value))}
-            className="border border-gray-300 dark:border-gray-600 rounded-lg p-2 w-64 text-gray-800 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          <label htmlFor="rounds" className="w-full text-left font-bold">ゲーム詳細</label>
+          <div className="w-full flex items-center">
+            <label htmlFor="rounds" className="w-full text-left">ラウンド数</label>
+            <input 
+              type="number"
+              min={1} 
+              id="rounds"
+              name="rounds"
+              value={tempRound}
+              placeholder="1"
+              onChange={(e) => setTempRound(Number(e.target.value))}
+              className="border border-gray-300 dark:border-gray-600 rounded-lg p-2 w-40 text-gray-800 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             />
+          </div>
+            <label htmlFor="memo" className="w-full text-left">メモ</label>
+            <textarea
+              id="memo"
+              name="memo"
+              value={tempMemo}
+              placeholder="メモを入力"
+              onChange={(e) => setTempMemo(e.target.value)}
+              className="border border-gray-300 dark:border-gray-600 rounded-lg p-2 w-full h-20 text-gray-800 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            /> 
           <button 
             type="button"
             className="bg-blue-400 hover:bg-blue-500 text-white dark:bg-blue-600/80 dark:hover:bg-blue-600 px-4 py-2 rounded-lg transition duration-200 shadow-sm"
-            onClick={() => {
-
-              setGameStatus((prev) => ({
-                ...prev,
-                rules: { round: tempRound }
-              }));
-
-              router.push(`/game/${ulid()}/share`);
-            }}
+            onClick={onClickCreateGame}
           >
             得点版リンク作成
           </button>
