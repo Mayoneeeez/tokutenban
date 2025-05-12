@@ -16,9 +16,8 @@ datasource db {
 }
 
 model Game {
-  game_id           String   @id @default(uuid())
+  game_id           String   @id @default(ulid())
   game_name         String   @db.VarChar(100)
-  url_path          String   @unique @db.VarChar(50)
   memo              String?  @db.Text
   created_datetime  DateTime @default(now())
   updated_datetime  DateTime @updatedAt
@@ -28,7 +27,7 @@ model Game {
 }
 
 model Score {
-  score_id         String   @id @default(uuid())
+  score_id         String   @id @default(ulid())
   game_id          String
   player_name      String   @db.VarChar(50)
   round_number     Int

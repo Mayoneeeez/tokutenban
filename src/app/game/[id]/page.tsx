@@ -1,10 +1,12 @@
-"use client";
-import { useSearchParams, useParams } from "next/navigation";
+'use client';
+import { useSearchParams, useParams } from 'next/navigation';
 
 export default function GamePage() {
   const params = useParams() as { id: string };
   const searchParams = useSearchParams();
-  const gameName = searchParams.get("name");
+  const gameName = searchParams.get('name');
+
+  console.log(params);
 
   return (
     <div className="flex flex-col items-center p-8">

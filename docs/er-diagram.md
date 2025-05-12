@@ -40,4 +40,4 @@ erDiagram
 
 %% 複合ユニーク制約
     scores }o--|| unique_constraint : "(game_id, player_name, round_number)"
-``` 
+```
