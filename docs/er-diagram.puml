@@ -10,40 +10,39 @@ skinparam class {
 
 ' Tables
 entity "games" as games {
-    + game_id: UUID <<PK>>
+    + game_id: String <<PK>> <<ULID>>
     --
-    game_name: VARCHAR(100)
-    url_path: VARCHAR(50) <<UK>>
-    memo: TEXT
-    created_datetime: TIMESTAMP
-    updated_datetime: TIMESTAMP
+    game_name: String
+    memo: String
+    created_datetime: DateTime
+    updated_datetime: DateTime
 }
 
 entity "scores" as scores {
-    + score_id: UUID <<PK>>
+    + score_id: String <<PK>> <<ULID>>
     --
-    # game_id: UUID <<FK>>
-    player_name: VARCHAR(50)
-    round_number: INTEGER
-    score: INTEGER
-    created_datetime: TIMESTAMP
-    updated_datetime: TIMESTAMP
+    # game_id: String <<FK>> <<ULID>>
+    player_name: String
+    round_number: Int
+    score: Int
+    created_datetime: DateTime
+    updated_datetime: DateTime
     --
     <<UK>> (game_id, player_name, round_number)
 }
 
 ' Views
 entity "player_totals" as player_totals <<view>> {
-    game_id: UUID
-    player_name: VARCHAR(50)
-    total_score: INTEGER
+    game_id: String <<ULID>>
+    player_name: String
+    total_score: Int
 }
 
 entity "game_rankings" as game_rankings <<view>> {
-    game_id: UUID
-    player_name: VARCHAR(50)
-    total_score: INTEGER
-    rank: INTEGER
+    game_id: String <<ULID>>
+    player_name: String
+    total_score: Int
+    rank: Int
 }
 
 ' Relationships

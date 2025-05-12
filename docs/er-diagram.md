@@ -3,35 +3,34 @@
 ```mermaid
 erDiagram
     games {
-        UUID game_id PK
-        VARCHAR(100) game_name
-        VARCHAR(50) url_path UK
-        TEXT memo
-        TIMESTAMP created_datetime
-        TIMESTAMP updated_datetime
+        String game_id PK "ULID"
+        String game_name
+        String memo
+        DateTime created_datetime
+        DateTime updated_datetime
     }
 
     scores {
-        UUID score_id PK
-        UUID game_id FK
-        VARCHAR(50) player_name
-        INTEGER round_number
-        INTEGER score
-        TIMESTAMP created_datetime
-        TIMESTAMP updated_datetime
+        String score_id PK "ULID"
+        String game_id FK "ULID"
+        String player_name
+        Int round_number
+        Int score
+        DateTime created_datetime
+        DateTime updated_datetime
     }
 
     player_totals {
-        UUID game_id
-        VARCHAR(50) player_name
-        INTEGER total_score
+        String game_id "ULID"
+        String player_name
+        Int total_score
     }
 
     game_rankings {
-        UUID game_id
-        VARCHAR(50) player_name
-        INTEGER total_score
-        INTEGER rank
+        String game_id "ULID"
+        String player_name
+        Int total_score
+        Int rank
     }
 
     games ||--o{ scores : "has many"
