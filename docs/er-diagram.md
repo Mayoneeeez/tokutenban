@@ -3,7 +3,7 @@
 ```mermaid
 erDiagram
     games {
-        String game_id PK "ULID"
+        String game_id PK "NanoID"
         String game_name
         String memo
         DateTime created_datetime
@@ -11,8 +11,8 @@ erDiagram
     }
 
     scores {
-        String score_id PK "ULID"
-        String game_id FK "ULID"
+        String score_id PK "NanoID"
+        String game_id FK "NanoID"
         String player_name
         Int round_number
         Int score
@@ -21,13 +21,13 @@ erDiagram
     }
 
     player_totals {
-        String game_id "ULID"
+        String game_id "NanoID"
         String player_name
         Int total_score
     }
 
     game_rankings {
-        String game_id "ULID"
+        String game_id "NanoID"
         String player_name
         Int total_score
         Int rank

@@ -16,7 +16,7 @@ datasource db {
 }
 
 model Game {
-  game_id           String   @id @default(ulid()) @db.Char(26)
+  game_id           String   @id @default(nanoid())
   game_name         String   @db.VarChar(100)
   memo              String?  @db.Text
   created_datetime  DateTime @default(now())
@@ -27,8 +27,8 @@ model Game {
 }
 
 model Score {
-  score_id         String   @id @default(ulid()) @db.Char(26)
-  game_id          String   @db.Char(26)
+  score_id         String   @id @default(nanoid())
+  game_id          String
   player_name      String   @db.VarChar(50)
   round_number     Int
   score            Int
@@ -41,7 +41,7 @@ model Score {
 }
 
 view PlayerTotal {
-  game_id      String  @id @db.Char(26)
+  game_id      String  @id
   player_name  String
   total_score  Int
 
@@ -49,7 +49,7 @@ view PlayerTotal {
 }
 
 view GameRanking {
-  game_id      String  @id @db.Char(26)
+  game_id      String  @id
   player_name  String
   total_score  Int
   rank         Int

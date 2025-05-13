@@ -10,7 +10,7 @@ skinparam class {
 
 ' Tables
 entity "games" as games {
-    + game_id: String <<PK>> <<ULID>>
+    + game_id: String <<PK>> <<NanoID>>
     --
     game_name: String
     memo: String
@@ -19,9 +19,9 @@ entity "games" as games {
 }
 
 entity "scores" as scores {
-    + score_id: String <<PK>> <<ULID>>
+    + score_id: String <<PK>> <<NanoID>>
     --
-    # game_id: String <<FK>> <<ULID>>
+    # game_id: String <<FK>> <<NanoID>>
     player_name: String
     round_number: Int
     score: Int
@@ -33,13 +33,13 @@ entity "scores" as scores {
 
 ' Views
 entity "player_totals" as player_totals <<view>> {
-    game_id: String <<ULID>>
+    game_id: String <<NanoID>>
     player_name: String
     total_score: Int
 }
 
 entity "game_rankings" as game_rankings <<view>> {
-    game_id: String <<ULID>>
+    game_id: String <<NanoID>>
     player_name: String
     total_score: Int
     rank: Int
