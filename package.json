@@ -17,10 +17,10 @@
   "dependencies": {
     "@prisma/client": "^6.6.0",
     "@supabase/supabase-js": "^2.49.4",
+    "nanoid": "^5.1.5",
     "next": "15.2.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "ulid": "^2.3.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

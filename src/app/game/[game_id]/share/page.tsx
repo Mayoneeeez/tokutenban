@@ -6,11 +6,11 @@ import { useState } from 'react';
 export default function LinkSharePage() {
   const router = useRouter();
 
-  const params = useParams() as { id: string };
+  const params = useParams() as { game_id: string };
 
   const [copied, setCopied] = useState(false);
 
-  const gameUrl = `${window.location.origin}/game/${params.id}`;
+  const gameUrl = `${window.location.origin}/game/${params.game_id}`;
 
   const handleCopy = async () => {
     try {
@@ -46,7 +46,7 @@ export default function LinkSharePage() {
         type="button"
         className="bg-blue-400 hover:bg-blue-500 text-white dark:bg-blue-600/80 dark:hover:bg-blue-600 px-4 py-2 rounded-lg transition duration-200 shadow-sm"
         onClick={() => {
-          router.push(`/game/${params.id}`);
+          router.push(`/game/${params.game_id}`);
         }}
       >
         得点版にとぶ

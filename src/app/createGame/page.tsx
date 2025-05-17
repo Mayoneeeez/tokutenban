@@ -1,27 +1,27 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { ulid } from 'ulid';
+import { nanoid } from 'nanoid';
 
 export default function CreateGamePage() {
   const router = useRouter();
 
-  type Player = {
-    playerName: string;
-  };
+  // type Player = {
+  //   playerName: string;
+  // };
 
-  type Description = {
-    round: number;
-    memo: string;
-  };
+  // type Description = {
+  //   round: number;
+  //   memo: string;
+  // };
 
-  type GameStatus = {
-    gameName: string;
-    players: Player[];
-    description: Description;
-  };
+  // type GameStatus = {
+  //   gameName: string;
+  //   players: Player[];
+  //   description: Description;
+  // };
 
-  const [gameStatus, setGameStatus] = useState<GameStatus>({
+  const [gameStatus, setGameStatus] = useState<AppType.GameStatus>({
     gameName: '',
     players: [],
     description: {
@@ -40,7 +40,7 @@ export default function CreateGamePage() {
       description: { round: tempRound, memo: tempMemo },
     }));
 
-    router.push(`/game/${ulid()}/share`);
+    router.push(`/game/${nanoid()}/share`);
   };
 
   useEffect(() => {
