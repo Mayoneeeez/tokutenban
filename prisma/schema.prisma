@@ -15,6 +15,17 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Player {
+  player_id        String   @id @default(nanoid())
+  player_name      String   @db.VarChar(50)
+  created_datetime DateTime @default(now())
+  updated_datetime DateTime @updatedAt
+  scores           Score[]
+
+  @@unique([player_name])
+  @@map("players")
+}
+
 model Game {
   game_id           String   @id @default(nanoid())
   game_name         String   @db.VarChar(100)
@@ -29,19 +40,21 @@ model Game {
 model Score {
   score_id         String   @id @default(nanoid())
   game_id          String
-  player_name      String   @db.VarChar(50)
+  player_id        String
   round_number     Int
   score            Int
   created_datetime DateTime @default(now())
   updated_datetime DateTime @updatedAt
   game             Game     @relation(fields: [game_id], references: [game_id], onDelete: Cascade)
+  player           Player   @relation(fields: [player_id], references: [player_id], onDelete: Cascade)
 
-  @@unique([game_id, player_name, round_number], name: "unique_round_score")
+  @@unique([game_id, player_id, round_number], name: "unique_round_score")
   @@map("scores")
 }
 
 view PlayerTotal {
   game_id      String  @id
+  player_id    String
   player_name  String
   total_score  Int
 
@@ -50,6 +63,7 @@ view PlayerTotal {
 
 view GameRanking {
   game_id      String  @id
+  player_id    String
   player_name  String
   total_score  Int
   rank         Int

@@ -18,28 +18,38 @@ entity "games" as games {
     updated_datetime: DateTime
 }
 
+entity "players" as players {
+    + player_id: String <<PK>> <<NanoID>>
+    --
+    player_name: String <<UK>>
+    created_datetime: DateTime
+    updated_datetime: DateTime
+}
+
 entity "scores" as scores {
     + score_id: String <<PK>> <<NanoID>>
     --
     # game_id: String <<FK>> <<NanoID>>
-    player_name: String
+    # player_id: String <<FK>> <<NanoID>>
     round_number: Int
     score: Int
     created_datetime: DateTime
     updated_datetime: DateTime
     --
-    <<UK>> (game_id, player_name, round_number)
+    <<UK>> (game_id, player_id, round_number)
 }
 
 ' Views
 entity "player_totals" as player_totals <<view>> {
     game_id: String <<NanoID>>
+    player_id: String <<NanoID>>
     player_name: String
     total_score: Int
 }
 
 entity "game_rankings" as game_rankings <<view>> {
     game_id: String <<NanoID>>
+    player_id: String <<NanoID>>
     player_name: String
     total_score: Int
     rank: Int
@@ -47,6 +57,7 @@ entity "game_rankings" as game_rankings <<view>> {
 
 ' Relationships
 games ||--o{ scores
+players ||--o{ scores
 scores ||--o{ player_totals
 player_totals ||--o{ game_rankings
 
