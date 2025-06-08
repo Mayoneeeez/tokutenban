@@ -1,25 +1,10 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { nanoid } from 'nanoid';
 
 export default function CreateGamePage() {
   const router = useRouter();
-
-  // type Player = {
-  //   playerName: string;
-  // };
-
-  // type Description = {
-  //   round: number;
-  //   memo: string;
-  // };
-
-  // type GameStatus = {
-  //   gameName: string;
-  //   players: Player[];
-  //   description: Description;
-  // };
 
   const [gameStatus, setGameStatus] = useState<AppType.GameStatus>({
     gameName: '',
@@ -34,18 +19,22 @@ export default function CreateGamePage() {
   const [tempRound, setTempRound] = useState<number>(1);
   const [tempMemo, setTempMemo] = useState<string>('');
 
-  const onClickCreateGame = () => {
+  const onClickCreateGame = async () => {
     setGameStatus((prev) => ({
       ...prev,
       description: { round: tempRound, memo: tempMemo },
     }));
 
-    router.push(`/game/${nanoid()}/share`);
+    const response = await fetch('/api/game/createGame', {
+      method: 'POST',
+      body: JSON.stringify(gameStatus),
+    });
+    if (response.status === 200) {
+      router.push(`/game/${nanoid()}/share`);
+    } else {
+      console.error('ゲーム作成に失敗しました');
+    }
   };
-
-  useEffect(() => {
-    console.log(gameStatus);
-  }, [gameStatus]);
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
